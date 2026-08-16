@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import Button from './UI/Button';
 import { truncate } from '../utils/helpers';
 

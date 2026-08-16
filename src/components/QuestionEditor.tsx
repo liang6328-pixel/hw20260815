@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
 // Types imported as any
-import Button from './UI/Button';
 
 export interface QuestionEditorProps {
   question: any;
@@ -11,7 +10,6 @@ export interface QuestionEditorProps {
 const QuestionEditor: React.FC<QuestionEditorProps> = ({
   question,
   onUpdate,
-  compact = false,
 }) => {
   const [editedQuestion, setEditedQuestion] = useState<any>(question);
 
@@ -27,7 +25,7 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
   }, []);
 
   const handleChoiceChange = useCallback((choice: 'a' | 'b' | 'c' | 'd', value: string) => {
-    setEditedQuestion(prev => ({
+    setEditedQuestion((prev: any) => ({
       ...prev,
       choices: prev.choices
         ? { ...prev.choices, [choice]: value }
@@ -36,7 +34,7 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
   }, []);
 
   const handleCorrectAnswerChange = useCallback((value: string) => {
-    setEditedQuestion(prev => ({
+    setEditedQuestion((prev: any) => ({
       ...prev,
       correctAnswer: value,
     }));

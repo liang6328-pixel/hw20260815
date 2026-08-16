@@ -1,6 +1,8 @@
 // Types imported as any
+type ExportFormat = 'txt' | 'docx' | 'pdf' | 'json';
+
 import { jsPDF } from 'jspdf';
-import { Document, Packer, Paragraph, Table, TableCell, TableRow, TextRun, BorderStyle } from 'docx';
+import { Document, Packer, Paragraph, Table, TableCell, TableRow } from 'docx';
 
 export interface ExportData {
   title: string;
@@ -185,15 +187,15 @@ export async function exportAsDOCX(data: ExportData): Promise<void> {
     new TableRow({
       cells: [
         new TableCell({
-          children: [new Paragraph({ text: 'Question', bold: true })],
+          children: [new Paragraph({ text: 'Question' } as any)],
           shading: { fill: 'E0E0E0' },
         }),
         new TableCell({
-          children: [new Paragraph({ text: 'Choices', bold: true })],
+          children: [new Paragraph({ text: 'Choices' } as any)],
           shading: { fill: 'E0E0E0' },
         }),
       ],
-    })
+    } as any)
   );
 
   // Add question rows
@@ -212,7 +214,7 @@ export async function exportAsDOCX(data: ExportData): Promise<void> {
             children: [new Paragraph(choiceText)],
           }),
         ],
-      })
+      } as any)
     );
   });
 
@@ -223,25 +225,23 @@ export async function exportAsDOCX(data: ExportData): Promise<void> {
           new Paragraph({
             text: 'Mock Test Questions',
             size: 36,
-            bold: true,
-          }),
+          } as any),
           new Paragraph({
             text: `Generated: ${data.timestamp.toLocaleString()}`,
             size: 20,
             spacing: { after: 400 },
-          }),
+          } as any),
           new Paragraph({
             text: `Title: ${data.title}`,
             size: 24,
             spacing: { after: 200 },
-          }),
+          } as any),
           ...(data.sourceQuestion
             ? [
                 new Paragraph({
                   text: 'Source Question:',
-                  bold: true,
                   size: 24,
-                }),
+                } as any),
                 new Paragraph({
                   text: data.sourceQuestion.text,
                   spacing: { after: 200 },
@@ -250,10 +250,9 @@ export async function exportAsDOCX(data: ExportData): Promise<void> {
             : []),
           new Paragraph({
             text: `Generated Questions (${data.questions.length}):`,
-            bold: true,
             size: 24,
             spacing: { before: 200, after: 200 },
-          }),
+          } as any),
           new Table({
             rows,
             width: { size: 100, type: 'pct' },

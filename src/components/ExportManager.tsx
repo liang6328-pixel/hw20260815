@@ -15,7 +15,7 @@ const ExportManager: React.FC<ExportManagerProps> = ({
   generatedQuestions,
   onClose,
 }) => {
-  const [selectedFormat, setSelectedFormat] = useState<ExportFormat>('docx');
+  const [selectedFormat, setSelectedFormat] = useState<any>('docx');
   const [testTitle, setTestTitle] = useState('Mock Test Questions');
   const [exporting, setExporting] = useState(false);
   const [error, setError] = useState<string | null>(null);

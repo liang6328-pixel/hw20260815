@@ -1,4 +1,6 @@
 // Types imported as any
+type GenerationResult = { questions: any[]; modelUsed: string };
+type GeneratedQuestion = any;
 
 function generateMockQuestions(sourceQuestion: any, count: number = 5): any[] {
   const questions: any[] = [];

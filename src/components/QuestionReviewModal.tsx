@@ -21,7 +21,6 @@ const QuestionReviewModal: React.FC<QuestionReviewModalProps> = ({
   generatedQuestions,
   onClose,
   onSave,
-  regenerating = false,
 }) => {
   const [questions, setQuestions] = useState<any[]>(generatedQuestions || []);
   const [selectedQuestionId, setSelectedQuestionId] = useState<string | null>(null);

@@ -1,4 +1,5 @@
 // Types imported as any
+type OCRResult = { text: string; confidence: number; detected_questions: any[] };
 
 // Mock OCR implementation
 const mockOCRData = `
@@ -97,12 +98,12 @@ export async function processImageWithOCR(
   useMockMode: boolean = true
 ): Promise<OCRResult> {
   if (useMockMode) {
-    return mockOCRProcess(imageData);
+    return mockOCRProcess();
   }
   return realOCRProcess(imageData);
 }
 
-async function mockOCRProcess(imageData: string | File): Promise<OCRResult> {
+async function mockOCRProcess(): Promise<OCRResult> {
   // Simulate processing delay
   await new Promise(resolve => setTimeout(resolve, 1500));
 
@@ -124,7 +125,7 @@ async function realOCRProcess(imageData: string | File): Promise<OCRResult> {
     // In a real implementation, you would use Tesseract.js or another OCR library
     // For this MVP, we'll fall back to mock
     console.warn('Real OCR not implemented yet, using mock mode');
-    return mockOCRProcess(imageData);
+    return mockOCRProcess();
   } catch (error) {
     console.error('OCR processing failed:', error);
     throw new Error('Failed to process image with OCR');

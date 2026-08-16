@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import Navigation from './components/Navigation';
 import CameraCapture from './components/CameraCapture';
 import FileImporter from './components/FileImporter';
