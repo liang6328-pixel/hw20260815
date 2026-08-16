@@ -109,18 +109,20 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({ onCapture, onCancel }) =>
     return (
       <div className="bg-white p-6 rounded-lg shadow">
         <h3 className="text-lg font-semibold mb-4">Camera Preview</h3>
-        <video
-          ref={videoRef}
-          autoPlay
-          playsInline
-          className="w-full rounded-lg mb-4 bg-black"
-          style={{ maxHeight: '400px' }}
-        />
-        <div className="flex gap-2">
-          <Button variant="primary" size="md" onClick={capturePhoto}>
-            📸 Capture
+        <div className="relative bg-black rounded-lg overflow-hidden mb-6" style={{ maxHeight: '500px' }}>
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            muted
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className="flex flex-col gap-3">
+          <Button variant="primary" size="lg" onClick={capturePhoto} className="w-full py-4 text-lg">
+            📷 CAPTURE
           </Button>
-          <Button variant="secondary" size="md" onClick={handleCancel}>
+          <Button variant="secondary" size="md" onClick={handleCancel} className="w-full">
             Cancel
           </Button>
         </div>
@@ -132,19 +134,21 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({ onCapture, onCancel }) =>
     return (
       <div className="bg-white p-6 rounded-lg shadow">
         <h3 className="text-lg font-semibold mb-4">Preview Captured Image</h3>
-        <img
-          src={capturedImage}
-          alt="Captured"
-          className="w-full rounded-lg mb-4 max-h-96 object-contain"
-        />
-        <div className="flex gap-2">
-          <Button variant="success" size="md" onClick={useCapture}>
+        <div className="rounded-lg overflow-hidden mb-6 bg-gray-100">
+          <img
+            src={capturedImage}
+            alt="Captured"
+            className="w-full max-h-96 object-contain"
+          />
+        </div>
+        <div className="flex flex-col gap-3">
+          <Button variant="success" size="lg" onClick={useCapture} className="w-full py-3">
             ✓ Use This Image
           </Button>
-          <Button variant="secondary" size="md" onClick={retake}>
+          <Button variant="secondary" size="md" onClick={retake} className="w-full">
             ↻ Retake
           </Button>
-          <Button variant="secondary" size="md" onClick={handleCancel}>
+          <Button variant="secondary" size="md" onClick={handleCancel} className="w-full">
             Cancel
           </Button>
         </div>
