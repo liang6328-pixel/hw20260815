@@ -1,6 +1,6 @@
 import * as pdfjsLib from 'pdfjs-dist';
 
-type OCRResult = { text: string; confidence: number; detected_questions: any[]; summary?: string };
+type OCRResult = { text: string; confidence: number; detected_questions: any[]; summary?: string; jobRole?: string; year?: string };
 
 const DEEPSEEK_API_KEY = import.meta.env.VITE_DEEPSEEK_API_KEY;
 
@@ -97,6 +97,45 @@ async function summarizeText(text: string): Promise<string> {
   return data.choices?.[0]?.message?.content || '';
 }
 
+async function extractJobRoleAndYear(text: string): Promise<{ jobRole: string; year: string }> {
+  if (!DEEPSEEK_API_KEY) {
+    throw new Error('Deepseek API key not configured');
+  }
+
+  const response = await fetch('https://api.deepseek.com/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${DEEPSEEK_API_KEY}`,
+    },
+    body: JSON.stringify({
+      model: 'deepseek-chat',
+      messages: [
+        {
+          role: 'user',
+          content: `Extract the job role/title and year from this resume text. Return in format: JOB_ROLE: [title], YEAR: [year]. If not found, return UNKNOWN.\n\n${text}`,
+        },
+      ],
+      max_tokens: 200,
+    }),
+  });
+
+  if (!response.ok) {
+    return { jobRole: 'Unknown', year: 'Unknown' };
+  }
+
+  const data = await response.json();
+  const content = data.choices?.[0]?.message?.content || '';
+
+  const jobRoleMatch = content.match(/JOB_ROLE:\s*([^\n,]+)/i);
+  const yearMatch = content.match(/YEAR:\s*([^\n,]+)/i);
+
+  return {
+    jobRole: jobRoleMatch ? jobRoleMatch[1].trim() : 'Unknown',
+    year: yearMatch ? yearMatch[1].trim() : 'Unknown',
+  };
+}
+
 export async function processImageWithOCR(
   imageData: string | File,
   useMockMode: boolean = true
@@ -167,11 +206,22 @@ async function realOCRProcess(imageData: string | File): Promise<OCRResult> {
     // Generate summary
     const summary = await summarizeText(text);
 
+    // Extract job role and year for PDFs
+    let jobRole: string | undefined;
+    let year: string | undefined;
+    if (imageData instanceof File && (imageData.type === 'application/pdf' || imageData.name.toLowerCase().endsWith('.pdf'))) {
+      const extracted = await extractJobRoleAndYear(text);
+      jobRole = extracted.jobRole;
+      year = extracted.year;
+    }
+
     return {
       text,
       summary,
       confidence: 0.9,
       detected_questions: [],
+      jobRole,
+      year,
     };
   } catch (error) {
     console.error('OCR processing failed:', error);

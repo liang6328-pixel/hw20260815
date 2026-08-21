@@ -5,12 +5,16 @@ export interface QuestionCanvasProps {
   extractedText: string;
   onTextChange: (text: string) => void;
   loading?: boolean;
+  jobRole?: string;
+  year?: string;
 }
 
 const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
   extractedText,
   onTextChange,
   loading = false,
+  jobRole,
+  year,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(extractedText);
@@ -91,6 +95,15 @@ const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
           ✎ Edit
         </Button>
       </div>
+      {(jobRole || year) && (
+        <div className="mb-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+          <p className="text-sm text-blue-900">
+            {jobRole && <span><strong>Job Role:</strong> {jobRole}</span>}
+            {jobRole && year && <span> | </span>}
+            {year && <span><strong>Year:</strong> {year}</span>}
+          </p>
+        </div>
+      )}
       <div className="flex-1 overflow-y-auto">
         <div className="bg-gray-50 p-4 rounded-lg font-mono text-sm whitespace-pre-wrap text-gray-700 border border-gray-200">
           {extractedText}

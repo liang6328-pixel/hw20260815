@@ -32,6 +32,8 @@ interface AppState {
   extractedQuestions: Question[];
   selectedQuestion?: Question;
   generatedQuestions: GeneratedQuestion[];
+  jobRole?: string;
+  year?: string;
 }
 
 export default function App() {
@@ -58,6 +60,8 @@ export default function App() {
         step: 'extraction',
         extractedText: ocrResult.text,
         extractedQuestions: questions,
+        jobRole: ocrResult.jobRole,
+        year: ocrResult.year,
       }));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'OCR failed');
@@ -85,6 +89,8 @@ export default function App() {
           step: 'extraction',
           extractedText: ocrResult.text,
           extractedQuestions: questions,
+          jobRole: ocrResult.jobRole,
+          year: ocrResult.year,
         }));
         setLoading(false);
       } else {
@@ -148,7 +154,7 @@ export default function App() {
 
         {['extraction', 'selection', 'review', 'export'].includes(appState.step) && (
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.5rem' }}>
-            <QuestionCanvas extractedText={appState.extractedText} onTextChange={handleTextChange} loading={loading} />
+            <QuestionCanvas extractedText={appState.extractedText} onTextChange={handleTextChange} loading={loading} jobRole={appState.jobRole} year={appState.year} />
             <QuestionSelector questions={appState.extractedQuestions} selectedQuestionId={appState.selectedQuestion?.id} onSelectQuestion={handleSelectQuestion} onGenerateQuestions={handleGenerateQuestions} generating={generating} />
             <div style={{ backgroundColor: 'white', padding: '1.5rem', borderRadius: '0.5rem', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
               {appState.step === 'export' ? (
