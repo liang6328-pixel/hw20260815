@@ -1,11 +1,10 @@
 import * as pdfjsLib from 'pdfjs-dist';
-import workerUrl from 'pdfjs-dist/build/pdf.worker.min.js?url';
 
 type OCRResult = { text: string; confidence: number; detected_questions: any[]; summary?: string };
 
 const DEEPSEEK_API_KEY = import.meta.env.VITE_DEEPSEEK_API_KEY;
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl;
+pdfjsLib.GlobalWorkerOptions.workerSrc = `${import.meta.env.BASE_URL}pdf.worker.min.mjs`;
 
 async function extractTextFromPDF(file: File): Promise<string> {
   const arrayBuffer = await file.arrayBuffer();
