@@ -95,13 +95,12 @@ const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
           ✎ Edit
         </Button>
       </div>
-      {(jobRole || year) && (
+      {jobRole && jobRole !== 'Unknown' && (
         <div className="mb-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
-          <p className="text-sm text-blue-900">
-            {jobRole && <span><strong>Job Role:</strong> {jobRole}</span>}
-            {jobRole && year && <span> | </span>}
-            {year && <span><strong>Year:</strong> {year}</span>}
-          </p>
+          <p className="text-sm font-semibold text-blue-900 mb-2">📋 Work Experience:</p>
+          <div className="text-sm text-blue-800 whitespace-pre-wrap font-mono">
+            {jobRole}
+          </div>
         </div>
       )}
       <div className="flex-1 overflow-y-auto">

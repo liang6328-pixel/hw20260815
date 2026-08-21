@@ -113,10 +113,10 @@ async function extractJobRoleAndYear(text: string): Promise<{ jobRole: string; y
       messages: [
         {
           role: 'user',
-          content: `Extract the job role/title and year from this resume text. Return in format: JOB_ROLE: [title], YEAR: [year]. If not found, return UNKNOWN.\n\n${text}`,
+          content: `Extract all job positions/roles and their durations from this resume. Format each line as: [Job Title] | [Duration]. Example: Senior Developer | 2021-2024 (3 years). List only the key positions.\n\n${text}`,
         },
       ],
-      max_tokens: 200,
+      max_tokens: 500,
     }),
   });
 
@@ -125,14 +125,11 @@ async function extractJobRoleAndYear(text: string): Promise<{ jobRole: string; y
   }
 
   const data = await response.json();
-  const content = data.choices?.[0]?.message?.content || '';
-
-  const jobRoleMatch = content.match(/JOB_ROLE:\s*([^\n,]+)/i);
-  const yearMatch = content.match(/YEAR:\s*([^\n,]+)/i);
+  const jobSummary = data.choices?.[0]?.message?.content || '';
 
   return {
-    jobRole: jobRoleMatch ? jobRoleMatch[1].trim() : 'Unknown',
-    year: yearMatch ? yearMatch[1].trim() : 'Unknown',
+    jobRole: jobSummary.trim() || 'Unknown',
+    year: '',
   };
 }
 
