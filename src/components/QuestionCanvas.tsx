@@ -95,19 +95,19 @@ const QuestionCanvas: React.FC<QuestionCanvasProps> = ({
           ✎ Edit
         </Button>
       </div>
+      <div className="flex-1 overflow-y-auto mb-4">
+        <div className="bg-gray-50 p-4 rounded-lg font-mono text-sm whitespace-pre-wrap text-gray-700 border border-gray-200">
+          {extractedText}
+        </div>
+      </div>
       {jobRole && jobRole !== 'Unknown' && (
-        <div className="mb-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+        <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
           <p className="text-sm font-semibold text-blue-900 mb-2">📋 Work Experience:</p>
           <div className="text-sm text-blue-800 whitespace-pre-wrap font-mono">
             {jobRole}
           </div>
         </div>
       )}
-      <div className="flex-1 overflow-y-auto">
-        <div className="bg-gray-50 p-4 rounded-lg font-mono text-sm whitespace-pre-wrap text-gray-700 border border-gray-200">
-          {extractedText}
-        </div>
-      </div>
     </div>
   );
 };
