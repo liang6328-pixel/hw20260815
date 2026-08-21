@@ -21,9 +21,11 @@ const FileImporter: React.FC<FileImporterProps> = ({ onFileSelect, onCancel }) =
 
     // Validate file type
     if (!isImageFile(file) && !isPDFFile(file)) {
-      setError('Please select an image (JPG, PNG, WEBP) or PDF file');
+      setError('Please select an image (JPG, PNG, WEBP) or PDF file (.pdf)');
       return;
     }
+
+    console.log('File selected:', file.name, file.type);
 
     // Validate file size (max 10MB)
     const maxSize = 10 * 1024 * 1024;
@@ -65,7 +67,7 @@ const FileImporter: React.FC<FileImporterProps> = ({ onFileSelect, onCancel }) =
         <input
           ref={fileInputRef}
           type="file"
-          accept=".jpg,.jpeg,.png,.webp,.pdf"
+          accept="image/jpeg,image/jpg,image/png,image/webp,application/pdf"
           onChange={handleFileSelect}
           className="hidden"
         />
