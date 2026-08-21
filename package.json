@@ -16,6 +16,7 @@
     "docx": "^9.7.1",
     "jspdf": "^4.2.1",
     "lucide-react": "^1.31.0",
+    "pdfjs-dist": "^6.2.108",
     "pptx": "^0.0.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
