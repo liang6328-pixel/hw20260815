@@ -77,15 +77,25 @@ export default function App() {
           await handleImageCapture(imageData);
         };
         reader.readAsDataURL(file);
+      } else if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
+        const ocrResult = await processImageWithOCR(file, demoMode);
+        const questions = extractQuestionsFromOCRResult(ocrResult);
+        setAppState(prev => ({
+          ...prev,
+          step: 'extraction',
+          extractedText: ocrResult.text,
+          extractedQuestions: questions,
+        }));
+        setLoading(false);
       } else {
-        setError('Use image files (JPG, PNG, WEBP)');
+        setError('Use image files (JPG, PNG, WEBP) or PDF files');
         setLoading(false);
       }
     } catch (err) {
       setError('Import failed');
       setLoading(false);
     }
-  }, [handleImageCapture]);
+  }, [handleImageCapture, demoMode]);
 
   const handleTextChange = useCallback((text: string) => {
     const questions = extractQuestionsFromOCRResult({ text, confidence: 0.9, detected_questions: [] });
