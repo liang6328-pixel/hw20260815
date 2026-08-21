@@ -28,7 +28,7 @@ export function isImageFile(file: File): boolean {
 }
 
 export function isPDFFile(file: File): boolean {
-  return file.type === 'application/pdf';
+  return file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
 }
 
 export function base64ToBlob(base64: string, type: string = 'image/jpeg'): Blob {
